@@ -193,6 +193,9 @@
   sudo: false
   lineinfile: dest=~/.bashrc insertbefore=BOF regexp='^export CONSUL_RPC_ADDR' line='export CONSUL_RPC_ADDR="{{ consul_client_address }}:{{ consul_port_rpc }}"'
 
+- name: create symlink to consul
+  file: src=/opt/consul/bin/consul dest=/usr/local/bin/consul state=link
+
 - name: copy consul configuration files
   copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   with_items: consul_copy_dirs_files

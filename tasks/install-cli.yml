@@ -35,3 +35,6 @@
     owner: "{{ consul_user }}"
     group: "{{ consul_group }}"
     mode: "0755"
+
+- name: create symlink to consul-cli
+  file: src=/opt/consul/bin/consul-cli dest=/usr/local/bin/consul-cli state=link
