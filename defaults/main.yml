@@ -1,4 +1,9 @@
 ---
+
+consul_copy_dirs_files:
+    ## src here is relative to the path of the playbook.yml file that is calling this role
+    #- { src: 'roles/consul/files/consul.d', dest: '/etc/consul.d/', mode: 'u=rwX,g=rX,o=rX', owner: 'consul', group: 'consul' }
+
 consul_version: 0.6.0
 consul_archive: "consul_{{ consul_version }}_linux_amd64.zip"
 consul_download: "https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_archive }}"

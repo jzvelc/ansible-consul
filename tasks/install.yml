@@ -192,3 +192,8 @@
 - name: add CONSUL_RPC_ADDR to .bashrc
   sudo: false
   lineinfile: dest=~/.bashrc insertbefore=BOF regexp='^export CONSUL_RPC_ADDR' line='export CONSUL_RPC_ADDR="{{ consul_client_address }}:{{ consul_port_rpc }}"'
+
+- name: copy consul configuration files
+  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  with_items: consul_copy_dirs_files
+  when: (consul_copy_dirs_files is defined) and not(consul_copy_dirs_files is none)
