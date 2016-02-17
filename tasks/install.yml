@@ -200,3 +200,4 @@
   copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
   with_items: consul_copy_dirs_files
   when: (consul_copy_dirs_files is defined) and not(consul_copy_dirs_files is none)
+  tags: configuration
