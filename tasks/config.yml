@@ -1,0 +1,16 @@
+---
+- name: consul config file
+  template: >
+    src=consul.json.j2
+    dest={{ consul_config_file }}
+    owner={{consul_user}}
+    group={{consul_group}}
+    mode=0755
+  notify:
+    - restart consul
+
+- name: copy consul configuration files
+  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
+  with_items: consul_copy_dirs_files
+  when: (consul_copy_dirs_files is defined) and not(consul_copy_dirs_files is none)
+
