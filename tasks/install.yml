@@ -188,3 +188,6 @@
 - name: create symlink to consul
   file: src=/opt/consul/bin/consul dest=/usr/local/bin/consul state=link
 
+- name: create logrotate consul
+  copy: src=logrotate-consul dest=/etc/logrotate.d/consul mode=644 owner=root group=root
+
