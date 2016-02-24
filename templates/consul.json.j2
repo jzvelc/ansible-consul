@@ -137,7 +137,7 @@
 {% endif %}
 {% if consul_http_api_response_headers is defined %}
   "http_api_response_headers": {{ consul_http_api_response_headers|to_nice_json }}
-{% endif %}
+{% endif %},
   "rejoin_after_leave": {{ "true" if consul_rejoin_after_leave else "false" }},
   "leave_on_terminate": {{ "true" if consul_leave_on_terminate else "false" }}
 
