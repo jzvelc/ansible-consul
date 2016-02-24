@@ -63,6 +63,10 @@
     - "{{ consul_data_dir }}"
     - "{{ consul_config_dir }}"
 
+- name: workaround in case log file exists and has the same name as new log dir (step 1)
+  shell: "if [ -f {{ consul_log_file|dirname }} ]; then mv {{ consul_log_file|dirname }} {{ consul_log_file|dirname }}.tmp.old && echo RENAMED; fi"
+  register: logfile_renamed
+
 # Check before creating log dir to prevent aggressively overwriting permissions
 - name: check for consul log directory
   stat: >
@@ -84,6 +88,20 @@
     owner={{ consul_user }}
     group={{ consul_group }}
   changed_when: false
+  when: logfile_renamed.stdout != "RENAMED"
+
+- name: workaround in case log file exists and has the same name as new log dir (step 2)
+  shell: "if [ -f {{ consul_log_file|dirname }}.tmp.old ]; then mv {{ consul_log_file|dirname }}.tmp.old {{ consul_log_file }}; fi"
+  when: logfile_renamed.stdout == "RENAMED"
+
+- name: touch the log file
+  file: >
+    state=touch
+    path={{ consul_log_file }}
+    owner={{ consul_user }}
+    group={{ consul_group }}
+  changed_when: false
+  when: logfile_renamed.stdout == "RENAMED"
 
 - name: copy and unpack
   unarchive: >
