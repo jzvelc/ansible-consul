@@ -98,3 +98,5 @@ consul_install_consulate: false
 consul_node_name: "{{ inventory_hostname }}"
 # Set to true to enable hostname verification via TLS
 consul_verify_server_hostname: false
+
+# consul_http_api_response_headers: 
