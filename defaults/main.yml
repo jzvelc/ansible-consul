@@ -1,10 +1,11 @@
 ---
 
+consul_services: {}
 consul_copy_dirs_files:
     ## src here is relative to the path of the playbook.yml file that is calling this role
     #- { src: 'roles/consul/files/consul.d', dest: '/etc/consul.d/', mode: 'u=rwX,g=rX,o=rX', owner: 'consul', group: 'consul' }
 
-consul_version: 0.6.0
+consul_version: 0.6.3
 consul_archive: "consul_{{ consul_version }}_linux_amd64.zip"
 consul_download: "https://releases.hashicorp.com/consul/{{ consul_version }}/{{ consul_archive }}"
 consul_download_username: ""
@@ -31,6 +32,7 @@ consul_cli_download: "https://github.com/CiscoCloud/consul-cli/archive/{{ consul
 consul_home: /opt/consul
 consul_config_dir: /etc/consul.d
 consul_config_file: /etc/consul.conf
+consul_services_file: "{{ consul_config_dir }}/services.conf"
 consul_log_file: /var/log/consul/consul
 consul_data_dir: "{{ consul_home }}/data"
 

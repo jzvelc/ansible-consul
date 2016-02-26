@@ -5,9 +5,17 @@
     dest={{ consul_config_file }}
     owner={{consul_user}}
     group={{consul_group}}
-    mode=0755
+    mode=0644
   notify:
     - restart consul
+
+- name: consul config services file
+  template: >
+    src=consul.services.json.j2
+    dest={{ consul_services_file }}
+    owner={{consul_user}}
+    group={{consul_group}}
+    mode=0644
 
 - name: copy consul configuration files
   copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.owner }} group={{ item.group }}
