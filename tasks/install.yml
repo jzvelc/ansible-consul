@@ -5,14 +5,31 @@
     cache_valid_time=3600
   when: ansible_os_family == "Debian"
 
-- name: install deps (Ubuntu)
+- name: install deps (Ubuntu 14.04)
   apt: >
     pkg={{item}}
     state=installed
   with_items:
     - unzip
     - jq
-  when: ansible_os_family == "Debian"
+  when: ("{{ ansible_distribution }}" == "Ubuntu") and ("{{ ansible_distribution_version }}|int" >= "14.04" )
+
+- name: install deps (Ubuntu 12.04) Pt.1
+  apt: >
+    pkg={{item}}
+    state=installed
+  with_items:
+    - unzip
+  when: ("{{ ansible_distribution }}_{{ ansible_distribution_version }}" == "Ubuntu_12.04" )
+
+- name: check if jq installed
+  shell: ls /usr/local/bin/jq
+  ignore_errors: true
+  register: jq_installed
+
+- name: install deps (Ubuntu 12.04) Pt.2
+  shell: curl http://stedolan.github.io/jq/download/linux64/jq -o /usr/local/bin/jq && chmod 755 /usr/local/bin/jq
+  when: jq_installed.rc != 0
 
 - name: install deps (RHEL)
   yum: >
