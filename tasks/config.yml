@@ -1,4 +1,13 @@
 ---
+- name: set hostname Pt.1
+  shell: cat /etc/hostname
+  register: hostname_reg
+  when: not(hostname is defined) or (hostname is none)
+
+- name: set hostname Pt.2
+  set_fact:
+    hostname: "{{ hostname_reg.stdout }}"
+
 - name: consul config file
   template: >
     src=consul.json.j2
