@@ -7,6 +7,7 @@
 - name: set hostname Pt.2
   set_fact:
     hostname: "{{ hostname_reg.stdout }}"
+  when: not(hostname is defined) or (hostname is none)
 
 - name: consul config file
   template: >
