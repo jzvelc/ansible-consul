@@ -23,6 +23,7 @@
   lineinfile: dest="/etc/dnsmasq.conf"
               regexp="^#conf-dir=/etc/dnsmasq.conf"
               line="conf-dir=/etc/dnsmasq.d"
+              backrefs=yes
               state=present
 
 - name: ensure configure directory
@@ -36,6 +37,7 @@
     dest: /etc/dnsmasq.conf
     regexp: "^#interface="
     line: "interface=lo"
+    backrefs: yes
 
 - name: configure dnsmasq to listen on docker0 interface
   lineinfile:
@@ -48,6 +50,7 @@
     dest: /etc/dnsmasq.conf
     regexp: "^#no-dhcp-interface="
     line: "no-dhcp-interface=lo"
+    backrefs: yes
 
 - name: configure dnsmasq to disable DHCP and TFTP
   lineinfile:
