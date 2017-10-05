@@ -10,6 +10,13 @@
   "retry_interval": "{{ consul_retry_interval }}",
   "retry_max": {{ consul_retry_max }},
 {% endif %}
+{% if consul_retry_join_ec2|default(false) %}
+  "retry_join_ec2": {
+	  "tag_key": "{{ consul_retry_join_ec2_tag_key }}",
+	  "tag_value": "{{ consul_retry_join_ec2_tag_value }}",
+	  "region": "{{ consul_retry_join_ec2_region }}"
+  },
+{% endif %}
 {% if consul_join_wan|default(false) %}
   "start_join_wan": [{% for host in consul_servers_wan %}"{{host}}"{% if not loop.last %}, {% endif %}{% endfor %}],
 {% endif %}
@@ -98,6 +105,9 @@
     "serf_wan": {{ consul_port_serf_wan }},
     "server": {{ consul_port_server }}
   },
+{% if consul_raft_protocol is defined %}
+  "raft_protocol": {{ consul_raft_protocol }},
+{% endif %}
 {% if consul_atlas_infrastructure is defined and consul_atlas_infrastructure %}
   "atlas_infrastructure": "{{ consul_atlas_infrastructure }}",
   "atlas_token": "{{ consul_atlas_token }}",
